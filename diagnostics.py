@@ -1,9 +1,9 @@
 import os
 import pandas as pd
-import matplotlib
+import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
-from sklearn import pipeline
 
 
 def mean_spread(data_x):
@@ -22,6 +22,32 @@ def mean_spread(data_x):
     plt.plot(delta)
     plt.show()
 
+
+def generate_pca_elbow_curve(data_x):
+    x = np.array(range(1, 100, 1)) / 100
+    pca_elbow = []
+
+    for n in x:
+        pca = PCA(n_components=n)
+        pca_training_x = pca.fit_transform(data_x)
+        print(n)
+        print(pca_training_x.shape)
+        pca_elbow.append(pca_training_x.shape[1])
+
+    # last value is all dimensions for n=1
+    pca_elbow = pd.DataFrame(pca_elbow)
+    pca_elbow.to_csv(os.path.join(dirname, 'data\\pca_elbow_curve.csv'))
+
+
+def correlation_tables(data_x):
+
+    # pearson, spearman correlation coefficients
+    store = data_x.corr(method='pearson')
+    store.to_csv(os.path.join(dirname, 'data\\pearson.csv'))
+
+    # mean spread as a function of standard deviation
+    # mean_spread(X_data)
+
 # import data
 dirname = os.path.dirname(__file__)
 data = pd.read_csv(os.path.join(dirname, 'data\\train.csv'), header=0)
@@ -31,15 +57,17 @@ data_y = data['target']
 X_data = data.drop(['target', 'ID_code'], axis=1)
 
 # standard scale data
-std = StandardScaler()
-X_data = pd.DataFrame(std.fit_transform(X_data))
-
-# pearson, spearman correlation coefficients
-store = X_data.corr(method='pearson')
-store.to_csv(os.path.join(dirname, 'data\\pearson.csv'))
-
-# mean spread as a function of standard deviation
-# mean_spread(X_data)
+# std = StandardScaler()
+# X_data = pd.DataFrame(std.fit_transform(X_data))
+#
+# generate_pca_elbow_curve(X_data)
+pca_elbow = pd.read_csv(os.path.join(dirname, 'data\\pca_elbow_curve.csv'), header=0)
+print(pca_elbow)
+plt.plot(pca_elbow['N_Dimensions'], pca_elbow['Explained Variance'])
+plt.title("PCA Elbow Curve")
+plt.xlabel("Dimensions")
+plt.ylabel("Explained Variance")
+plt.show()
 
 
 
