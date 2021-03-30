@@ -1,0 +1,69 @@
+0
+(24827, 200)
+(24827,)
+D:/Machine Learning/Term Project/data_agglomeration.py:75: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  X_1 = X_data[data_y == 1]
+D:/Machine Learning/Term Project/data_agglomeration.py:76: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  X_0 = X_data[data_y == 0]
+1
+D:/Machine Learning/Term Project/data_agglomeration.py:65: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  X_c = X_data[clusters.iloc[:, 1] == i]
+(2907, 24826)
+(23900,)
+D:/Machine Learning/Term Project/data_agglomeration.py:75: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  X_1 = X_data[data_y == 1]
+D:/Machine Learning/Term Project/data_agglomeration.py:76: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  X_0 = X_data[data_y == 0]
+2
+D:/Machine Learning/Term Project/data_agglomeration.py:65: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  X_c = X_data[clusters.iloc[:, 1] == i]
+(341, 2907)
+(23060,)
+D:/Machine Learning/Term Project/data_agglomeration.py:75: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  X_1 = X_data[data_y == 1]
+D:/Machine Learning/Term Project/data_agglomeration.py:76: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  X_0 = X_data[data_y == 0]
+3
+D:/Machine Learning/Term Project/data_agglomeration.py:65: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  X_c = X_data[clusters.iloc[:, 1] == i]
+(36, 341)
+(23307,)
+D:/Machine Learning/Term Project/data_agglomeration.py:75: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  X_1 = X_data[data_y == 1]
+D:/Machine Learning/Term Project/data_agglomeration.py:76: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  X_0 = X_data[data_y == 0]
+4
+D:/Machine Learning/Term Project/data_agglomeration.py:65: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  X_c = X_data[clusters.iloc[:, 1] == i]
+(3, 35)
+(28707,)
+D:/Machine Learning/Term Project/data_agglomeration.py:75: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  X_1 = X_data[data_y == 1]
+D:/Machine Learning/Term Project/data_agglomeration.py:76: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  X_0 = X_data[data_y == 0]
+5
+D:/Machine Learning/Term Project/data_agglomeration.py:65: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  X_c = X_data[clusters.iloc[:, 1] == i]
+(0, 3)
+(24074,)
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+  File "C:\Program Files\JetBrains\PyCharm 2020.3.2\plugins\python\helpers\pydev\_pydev_bundle\pydev_umd.py", line 197, in runfile
+    pydev_imports.execfile(filename, global_vars, local_vars)  # execute the script
+  File "C:\Program Files\JetBrains\PyCharm 2020.3.2\plugins\python\helpers\pydev\_pydev_imps\_pydev_execfile.py", line 18, in execfile
+    exec(compile(contents+"\n", file, 'exec'), glob, loc)
+  File "D:/Machine Learning/Term Project/data_agglomeration.py", line 110, in <module>
+    apply_kpca()
+  File "D:/Machine Learning/Term Project/data_agglomeration.py", line 72, in apply_kpca
+    X_data = kpca.fit_transform(X_c)
+  File "C:\Users\maxar\AppData\Local\Programs\Python\Python38\lib\site-packages\sklearn\decomposition\_kernel_pca.py", line 310, in fit_transform
+    self.fit(X, **params)
+  File "C:\Users\maxar\AppData\Local\Programs\Python\Python38\lib\site-packages\sklearn\decomposition\_kernel_pca.py", line 283, in fit
+    X = self._validate_data(X, accept_sparse='csr', copy=self.copy_X)
+  File "C:\Users\maxar\AppData\Local\Programs\Python\Python38\lib\site-packages\sklearn\base.py", line 421, in _validate_data
+    X = check_array(X, **check_params)
+  File "C:\Users\maxar\AppData\Local\Programs\Python\Python38\lib\site-packages\sklearn\utils\validation.py", line 63, in inner_f
+    return f(*args, **kwargs)
+  File "C:\Users\maxar\AppData\Local\Programs\Python\Python38\lib\site-packages\sklearn\utils\validation.py", line 669, in check_array
+    raise ValueError("Found array with %d sample(s) (shape=%s) while a"
+ValueError: Found array with 0 sample(s) (shape=(0, 3)) while a minimum of 1 is required.
