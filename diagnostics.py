@@ -69,42 +69,46 @@ def correlation_tables(data_x):
 
 # import data
 dirname = os.path.dirname(__file__)
-data = pd.read_csv(os.path.join(dirname, 'data\\train2.csv'), header=0)
+data = pd.read_csv(os.path.join(dirname, 'data\\train.csv'), header=0)
 
 # split into x & y, drop ID column and target column from X
 data_y = data['target']
 X_data = data.drop(['target', 'ID_code'], axis=1)
 std = StandardScaler()
 X_data = pd.DataFrame(std.fit_transform(X_data))
+X_data = X_data.abs()
 
-lle = LocallyLinearEmbedding(n_components=2)
+#generate_pca_elbow_curve(X_data)
+show_pca_elbow_curve()
+
+# lle = LocallyLinearEmbedding(n_components=2)
 # X_new = lle.fit_transform(X_data, data_y)
 # pd.DataFrame(X_new).plot()
 # plt.show()
 # print(lle.reconstruction_error_)
 
-start = time.time()
-lle.fit_transform(X_data, data_y)
-end = time.time()
-
-t = end - start
-
-print(lle.reconstruction_error_)
-N = 19044.0
-D = 35.0
-k = 5.0
-d = 5
-
-o = t/(D*m.log(k)*N*m.log(N) + D*N*k**3 + d*N**2)
-print(o)
-
-N = 100000
-D = 200
-k = 5.0
-d = 30
-
-t = o*(D*m.log(k)*N*m.log(N) + D*N*k**3 + d*N**2)
-print(t)
+# start = time.time()
+# lle.fit_transform(X_data, data_y)
+# end = time.time()
+#
+# t = end - start
+#
+# print(lle.reconstruction_error_)
+# N = 19044.0
+# D = 35.0
+# k = 5.0
+# d = 5
+#
+# o = t/(D*m.log(k)*N*m.log(N) + D*N*k**3 + d*N**2)
+# print(o)
+#
+# N = 100000
+# D = 200
+# k = 5.0
+# d = 30
+#
+# t = o*(D*m.log(k)*N*m.log(N) + D*N*k**3 + d*N**2)
+# print(t)
 
 
 
