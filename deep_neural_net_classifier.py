@@ -3,6 +3,8 @@ import os
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.cluster import FeatureAgglomeration
+from sklearn.decomposition import PCA
+from sklearn.model_selection import train_test_split
 from tensorflow import keras  # tf.keras
 
 
@@ -43,20 +45,22 @@ def plot_learning_curves(history):
 
 print("Loading Data");
 training_data = loadTrainingData()
-testing_data = loadTestData()
-print(testing_data)
 
-y_train = training_data['target']
-X_train = training_data.drop(['target', 'ID_code'], axis=1)
+y_train_full = training_data['target']
+X_train_full = training_data.drop(['target', 'ID_code'], axis=1)
 
-numberOfClusters = 200
+# Create the train and test data
+X_train, X_test, y_train, y_test = train_test_split(X_train_full, y_train_full, test_size=0.2)
+
 print("Reducing Features");
-#X_train_reduced = feature_reduction(X_train, numberOfClusters);
-#X_test_reduced = feature_reduction(X_test, numberOfClusters);
-#print(X_train_reduced);
+pca = PCA(n_components=0.97)
+pca_training_X = pca.fit_transform(X_train)
+pca_test_X = pca.fit_transform(X_test)
+
+numberOfFeatures = 124
 
 print("Creating Neural Net")
-model = createModel(numberOfClusters)
+model = createModel(numberOfFeatures)
 print(model.layers)
 print(model.summary())
 
@@ -66,9 +70,9 @@ model.compile(loss="sparse_categorical_crossentropy",
               metrics=["accuracy"])
 
 print("Training")
-history = model.fit(X_train, y_train, epochs=10)
+history = model.fit(pca_training_X, y_train, epochs=10)
 #plot_learning_curves(history)
 
 #print("Evaluating Test Data")
-#result = model.evaluate(X_test)
-#print(result)
+result = model.evaluate(pca_test_X, y_test)
+print(result)
