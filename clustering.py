@@ -44,7 +44,7 @@ def process_data(X_data, data_y):
 
     variance = X_1.var(axis=0)
     v_mean = variance.mean()
-    X_lesser = X_data.loc[:, variance > v_mean]
+    X_lesser = X_data.loc[:, variance < v_mean]
     X_greater = X_data.loc[:, variance > v_mean]
 
     return X_lesser, X_greater
@@ -80,11 +80,11 @@ def clustering(X_data):
     bkms = pd.DataFrame(bkms)
 
     dirname = os.path.dirname(__file__)
-    bkms.to_csv(os.path.join(dirname, 'data\\kmeans_clusters_greater.csv'))
+    bkms.to_csv(os.path.join(dirname, 'data\\kmeans_clusters_lesser.csv'))
 
 X_data, data_y = import_data()
 lesser, greater = process_data(X_data, data_y)
-clustering(greater)
+clustering(lesser)
 
 
 # dirname = os.path.dirname(__file__)

@@ -37,6 +37,13 @@ def nn():
     std = StandardScaler()
     X_data = pd.DataFrame(std.fit_transform(X_data))
 
+    for i in range(0, X_data.shape[1] - 1):
+        X_data.iloc[:, i] = X_data.iloc[:, i] * X_data.iloc[:, i + 1]
+    X_data.iloc[:, -1] = X_data.iloc[:, -1] * X_data.iloc[:, 0]
+
+    std = StandardScaler()
+    X_data = pd.DataFrame(std.fit_transform(X_data))
+
     # filter 1s from zeros
     X_0 = X_data[data_y == 0]
     X_1 = X_data[data_y == 1]
