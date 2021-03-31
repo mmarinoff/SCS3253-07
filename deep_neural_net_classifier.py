@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.cluster import FeatureAgglomeration
 from sklearn.decomposition import PCA
+from sklearn.decomposition import KernelPCA
 from sklearn.model_selection import train_test_split
 from tensorflow import keras  # tf.keras
 
@@ -53,11 +54,11 @@ X_train_full = training_data.drop(['target', 'ID_code'], axis=1)
 X_train, X_test, y_train, y_test = train_test_split(X_train_full, y_train_full, test_size=0.2)
 
 print("Reducing Features");
-pca = PCA(n_components=0.97)
+pca = PCA(n_components=0.95)
 pca_training_X = pca.fit_transform(X_train)
 pca_test_X = pca.fit_transform(X_test)
 
-numberOfFeatures = 124
+numberOfFeatures = 200
 
 print("Creating Neural Net")
 model = createModel(numberOfFeatures)
@@ -70,9 +71,9 @@ model.compile(loss="sparse_categorical_crossentropy",
               metrics=["accuracy"])
 
 print("Training")
-history = model.fit(pca_training_X, y_train, epochs=10)
+history = model.fit(X_train, y_train, epochs=10)
 #plot_learning_curves(history)
 
 #print("Evaluating Test Data")
-result = model.evaluate(pca_test_X, y_test)
+result = model.evaluate(X_test, y_test)
 print(result)
