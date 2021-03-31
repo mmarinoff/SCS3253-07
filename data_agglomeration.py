@@ -64,8 +64,11 @@ def apply_kpca():
     data_y = data['target']
     X_data = data.drop(['target', 'ID_code'], axis=1)
 
+    feature_cluster = FeatureAgglomeration(n_clusters=10)  # reduce dimensions to 20
+    X_reduced = feature_cluster.fit_transform(X_data)  # reduce samples to
+
     std = StandardScaler()
-    X_data = pd.DataFrame(std.fit_transform(X_data))
+    X_data = pd.DataFrame(std.fit_transform(X_reduced))
 
     for i in range(0, 8):
         print(i)
@@ -104,7 +107,7 @@ def feature_reduction():
     data_x = data_x.iloc[:, kbest_columns.values.flatten()]
     print(data_x.shape)
 
-    kpca = KernelPCA(n_components=2, kernel='rbf')
+    kpca = KernelPCA(n_components=2)
     X_data = kpca.fit_transform(data_x)
 
     X_data = pd.DataFrame(X_data)
@@ -114,4 +117,27 @@ def feature_reduction():
     plt.scatter(X_1.iloc[:, 0], X_1.iloc[:, 1])
     plt.show()
 
-apply_kpca()
+def feature_merge():
+    dirname = os.path.dirname(__file__)
+    data = pd.read_csv(os.path.join(dirname, 'data\\train.csv'), header=0)
+
+    # split into x & y, drop ID column and target column from X
+    data_y = data['target']
+    data_x = data.drop(['target', 'ID_code'], axis=1)
+
+    std = StandardScaler()
+    data_x = pd.DataFrame(std.fit_transform(data_x))
+
+    data_x.iloc[:, -1] = data_x.abs().sum(axis=1)
+
+    X_1 = data_x[data_y == 1]
+    X_0 = data_x[data_y == 0]
+
+    print(len(X_0.shape[0]*[0]))
+    print(len(X_0.iloc[:, -1]))
+
+    plt.scatter(X_0.shape[0]*[0], X_0.iloc[:, -1])
+    plt.scatter(X_1.shape[0]*[1], X_1.iloc[:, -1])
+    plt.show()
+
+feature_merge()

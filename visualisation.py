@@ -14,16 +14,52 @@ X_data = data.drop(['target', 'ID_code'], axis=1)
 std = StandardScaler()
 X_data = pd.DataFrame(std.fit_transform(X_data))
 
-for col in X_data.columns:
-    X_data[col] = np.sign(X_data[col])*X_data[col]**2
+# while True:
+#
+#     random.randint(0, 200)
+#     a = random.randint(0, 199)
+#     b = random.randint(0, 199)
+#
+#     X_1 = X_data[data_y == 1]
+#     X_0 = X_data[data_y == 0]
+#
+#
+#     plt.scatter(X_0.iloc[:, a], X_0.iloc[:, b], s=1)
+#     plt.scatter(X_1.iloc[:, a], X_1.iloc[:, b], s=1)
+#
+#     plt.xlabel(a)
+#     plt.ylabel(b)
+#     plt.show()
 
 
+
+#
+# for col in X_data.columns:
+#     X_data[col] = np.sign(X_data[col])*X_data[col]**2
+#
+# X_data = pd.DataFrame(std.fit_transform(X_data))
+# X_data = X_data.abs()
+#
+# X_data = pd.DataFrame(std.fit_transform(X_data))
+#
+clusters = pd.read_csv(os.path.join(dirname, 'data\\kmeans_clusters_lesser.csv'), header=0)
+
+# scale data
 std = StandardScaler()
 X_data = pd.DataFrame(std.fit_transform(X_data))
-# X_data = X_data.abs()
 
-clusters = pd.read_csv(os.path.join(dirname, 'data\\kmeans_clusters.csv'), header=0)
+# filter 1s from zeros
+X_0 = X_data[data_y == 0]
+X_1 = X_data[data_y == 1]
 
+# if mean 1 less than mean 0, flip sign so 1s always lean right
+mean_0 = X_0.mean(axis=0)
+mean_1 = X_1.mean(axis=0)
+
+# X_1_greater = X_data.loc[:, mean_1 > mean_0]
+X_1_lesser = X_data.loc[:, mean_1 < mean_0]
+
+X_data[X_1_lesser.columns] = np.negative(X_data[X_1_lesser.columns])
 
 while True:
 
@@ -31,7 +67,7 @@ while True:
     a = random.randint(0, 199)
     b = random.randint(0, 199)
 
-    for i in range(0, 8):
+    for i in range(2, 3):
         print(i)
         X_c = X_data[clusters.iloc[:, 1] == i]
 
@@ -40,7 +76,20 @@ while True:
 
         print(X_0.shape[0])
         print(X_1.shape[0])
-        print(X_0.shape[0]/X_1.shape[0])
+        print(X_1.shape[0]/X_0.shape[0])
+
+        # filter 1s from zeros
+        X_0 = X_data[data_y == 0]
+        X_1 = X_data[data_y == 1]
+
+        # if mean 1 less than mean 0, flip sign so 1s always lean right
+        mean_0 = X_0.mean(axis=0)
+        mean_1 = X_1.mean(axis=0)
+        v_0 = X_0.var(axis=0)
+        v_1 = X_1.var(axis=0)
+
+        print(mean_0-mean_1)
+        print(v_0-v_1)
 
         plt.scatter(X_0.iloc[:, a], X_0.iloc[:, b], s=1)
         plt.scatter(X_1.iloc[:, a], X_1.iloc[:, b], s=1)
@@ -48,3 +97,21 @@ while True:
         plt.xlabel(a)
         plt.ylabel(b)
         plt.show()
+
+
+# while True:
+#
+#     random.randint(0, 200)
+#     a = random.randint(0, 199)
+#     b = random.randint(0, 199)
+#
+#     X_1 = X_c[data_y == 1]
+#     X_0 = X_c[data_y == 0]
+#
+#
+#     plt.scatter(X_0.iloc[:, a], X_0.iloc[:, b], s=1)
+#     plt.scatter(X_1.iloc[:, a], X_1.iloc[:, b], s=1)
+#
+#     plt.xlabel(a)
+#     plt.ylabel(b)
+#     plt.show()
