@@ -10,13 +10,13 @@ from tensorflow import keras  # tf.keras
 def loadTrainingData():
     dirname = os.path.dirname(__file__)
     data = pd.read_csv(os.path.join(dirname, 'data\\train.csv'), header=0)
-    return data;
+    return data
 
 # loads the test data
 def loadTestData():
     dirname = os.path.dirname(__file__)
     data = pd.read_csv(os.path.join(dirname, 'data\\test.csv'), header=0)
-    return data;
+    return data
 
 # Merge features to reduce them
 def feature_reduction(X_data, numberOfClusters):
@@ -27,12 +27,12 @@ def feature_reduction(X_data, numberOfClusters):
 # Create the neural network
 def createModel(numberOfColumns) :
     model = keras.models.Sequential()
-    model.add(keras.layers.Dense(input_dim=numberOfColumns, activation='relu'))
+    model.add(keras.layers.Dense(units=numberOfColumns * 1.5, input_dim=numberOfColumns, activation='relu'))
     model.add(keras.layers.Dense(300, activation="relu"))
     model.add(keras.layers.Dense(100, activation="relu"))
     # softmax for binary classifier
     model.add(keras.layers.Dense(2, activation="softmax"))
-    return model;
+    return model
 
 def plot_learning_curves(history):
     pd.DataFrame(history.history).plot(figsize=(8, 5))
@@ -42,23 +42,21 @@ def plot_learning_curves(history):
     plt.show()
 
 print("Loading Data");
-training_data = loadTrainingData();
-testing_data = loadTestData();
+training_data = loadTrainingData()
+testing_data = loadTestData()
+print(testing_data)
 
-y_train = training_data['target'];
-X_train = training_data.drop(['target', 'ID_code'], axis=1);
+y_train = training_data['target']
+X_train = training_data.drop(['target', 'ID_code'], axis=1)
 
-y_test = testing_data['target'];
-X_test = testing_data.drop(['target', 'ID_code'], axis=1);
-
-numberOfClusters = 200;
-#print("Reducing Features");
+numberOfClusters = 200
+print("Reducing Features");
 #X_train_reduced = feature_reduction(X_train, numberOfClusters);
 #X_test_reduced = feature_reduction(X_test, numberOfClusters);
 #print(X_train_reduced);
 
-print("Creating Neural Net");
-model = createModel(numberOfClusters);
+print("Creating Neural Net")
+model = createModel(numberOfClusters)
 print(model.layers)
 print(model.summary())
 
@@ -71,6 +69,6 @@ print("Training")
 history = model.fit(X_train, y_train, epochs=10)
 #plot_learning_curves(history)
 
-print("Evaluating Test Data")
-result = model.evaluate(X_test, y_test)
-print(result)
+#print("Evaluating Test Data")
+#result = model.evaluate(X_test)
+#print(result)
