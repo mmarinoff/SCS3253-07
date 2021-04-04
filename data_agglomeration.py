@@ -89,6 +89,7 @@ def apply_kpca():
         plt.show()
         #X_data.to_csv(os.path.join(dirname, 'data\\kpca_reduced.csv'))
 
+
 def feature_reduction():
     # import data
     dirname = os.path.dirname(__file__)
@@ -117,6 +118,7 @@ def feature_reduction():
     plt.scatter(X_1.iloc[:, 0], X_1.iloc[:, 1])
     plt.show()
 
+
 def feature_merge():
     dirname = os.path.dirname(__file__)
     data = pd.read_csv(os.path.join(dirname, 'data\\train.csv'), header=0)
@@ -139,5 +141,6 @@ def feature_merge():
     plt.scatter(X_0.shape[0]*[0], X_0.iloc[:, -1])
     plt.scatter(X_1.shape[0]*[1], X_1.iloc[:, -1])
     plt.show()
+
 
 feature_merge()
