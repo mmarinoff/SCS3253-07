@@ -14,11 +14,13 @@ def loadTrainingData():
     data = pd.read_csv(os.path.join(dirname, 'data\\train.csv'), header=0)
     return data
 
+
 # loads the test data
 def loadTestData():
     dirname = os.path.dirname(__file__)
     data = pd.read_csv(os.path.join(dirname, 'data\\test.csv'), header=0)
     return data
+
 
 # Merge features to reduce them
 def feature_reduction(X_data, numberOfClusters):
@@ -26,8 +28,9 @@ def feature_reduction(X_data, numberOfClusters):
     X_reduced = feature_cluster.fit_transform(X_data)  # reduce samples to
     return X_reduced
 
+
 # Create the neural network
-def createModel(numberOfColumns) :
+def createModel(numberOfColumns):
     model = keras.models.Sequential()
     model.add(keras.layers.Dense(units=numberOfColumns * 1.5, input_dim=numberOfColumns, activation='relu'))
     model.add(keras.layers.Dense(1000, activation="relu"))
@@ -36,12 +39,14 @@ def createModel(numberOfColumns) :
     model.add(keras.layers.Dense(2, activation="softmax"))
     return model
 
+
 def plot_learning_curves(history):
     pd.DataFrame(history.history).plot(figsize=(8, 5))
     plt.grid(True)
     plt.gca().set_xlim(0, 1)
     plt.gca().set_ylim(0, 1)
     plt.show()
+
 
 print("Loading Data");
 training_data = loadTrainingData()
@@ -67,15 +72,15 @@ model = createModel(numberOfFeatures)
 print(model.layers)
 print(model.summary())
 
-#sparse_categorical_crossentropy
+# sparse_categorical_crossentropy
 model.compile(loss="sparse_categorical_crossentropy",
               optimizer=keras.optimizers.Adam(lr=1e-3),
               metrics=["accuracy"])
 
 print("Training")
 history = model.fit(X_train, y_train, epochs=10)
-#plot_learning_curves(history)
+# plot_learning_curves(history)
 
-#print("Evaluating Test Data")
+# print("Evaluating Test Data")
 result = model.evaluate(X_test, y_test)
 print(result)
