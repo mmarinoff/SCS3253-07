@@ -3,9 +3,8 @@ import os
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.cluster import FeatureAgglomeration
-from sklearn.decomposition import PCA
-from sklearn.decomposition import KernelPCA
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import PolynomialFeatures
 from tensorflow import keras  # tf.keras
 
 
@@ -31,7 +30,7 @@ def feature_reduction(X_data, numberOfClusters):
 def createModel(numberOfColumns) :
     model = keras.models.Sequential()
     model.add(keras.layers.Dense(units=numberOfColumns * 1.5, input_dim=numberOfColumns, activation='relu'))
-    model.add(keras.layers.Dense(300, activation="relu"))
+    model.add(keras.layers.Dense(1000, activation="relu"))
     model.add(keras.layers.Dense(100, activation="relu"))
     # softmax for binary classifier
     model.add(keras.layers.Dense(2, activation="softmax"))
@@ -50,13 +49,16 @@ training_data = loadTrainingData()
 y_train_full = training_data['target']
 X_train_full = training_data.drop(['target', 'ID_code'], axis=1)
 
+#poly_features = PolynomialFeatures(degree=2, include_bias=False)
+#X_poly = poly_features.fit_transform(X_train_full)
+
 # Create the train and test data
 X_train, X_test, y_train, y_test = train_test_split(X_train_full, y_train_full, test_size=0.2)
 
-print("Reducing Features");
-pca = PCA(n_components=0.95)
-pca_training_X = pca.fit_transform(X_train)
-pca_test_X = pca.fit_transform(X_test)
+#print("Reducing Features");
+#pca = PCA(n_components=0.95)
+#pca_training_X = pca.fit_transform(X_train)
+#pca_test_X = pca.fit_transform(X_test)
 
 numberOfFeatures = 200
 
